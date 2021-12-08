@@ -92,6 +92,20 @@ public abstract class MixinMinecraft
     //$$     this.earlyReturn = earlyReturn;
     //$$ }
     //$$
+    //$$ @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/TextureManager;tick()V"))
+    //$$ private void cancelTextureTick(TextureManager instance) {
+    //$$     if(!earlyReturn) {
+    //$$         instance.tick();
+    //$$     }
+    //$$ }
+    //$$
+    //$$ @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;updateTick()V"))
+    //$$ private void cancelHudTick(GuiIngame instance) {
+    //$$     if(!earlyReturn) {
+    //$$         instance.updateTick();
+    //$$     }
+    //$$ }
+    //$$
     //$$ @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;sendClickBlockToController(Z)V"), cancellable = true)
     //$$ private void doEarlyReturnFromRunTick(CallbackInfo ci) {
     //$$     if (earlyReturn) ci.cancel();
